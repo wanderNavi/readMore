@@ -1,3 +1,4 @@
 # Return template render of landing page
 def main():
-    return ("Reached the landing page.")
+	ind = 5
+    return ("Reached the landing page."+str(ind))
