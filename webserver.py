@@ -1,4 +1,5 @@
 # TEST HYPOTHETICAL HTML WEBSERVER PAGE
+# Do I really need this to build the html interaction?
 
 ############# IMPORTS#############
 # LIBRARIES
