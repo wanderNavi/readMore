@@ -41,4 +41,11 @@ def create_app(test_config=None):
 	from . import auth
 	app.register_blueprint(auth.bp)
 
+	# set up blog blueprint
+	from . import blog
+	app.register_blueprint(blog.bp)
+	# does not have url_prefix - main feature 
+	app.add_url_rule('/', endpoint='index')
+	# associating endpoint with '/' - set url_for('index') and url_for('blog.index') to both work (makes same / URL)
+
 	return app
