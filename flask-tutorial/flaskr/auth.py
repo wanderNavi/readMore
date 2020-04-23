@@ -94,3 +94,16 @@ def load_logged_in_user():
 def logout():
 	session.clear()
 	return redirect(url_for('index'))
+
+# Decorator: check if logged in and thus can use page
+def login_required(view):
+	@functools.wraps(view)
+	def wrapped_view(**kwargs):
+		if g.user is None:
+			# Bop user to login page
+			# url_for method uses . because login part of auth blueprint
+			return redirect(url_for('auth.login'))
+		# If logged in, proceed as usual 
+		return view(**kwargs)
+	# returns new view function wrapped around original view applied to
+	return wrapped_view
