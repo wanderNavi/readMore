@@ -39,7 +39,39 @@ def register():
 			# It's the good old url_for() method generating a url
 			return redirect(url_for('auth.login'))
 
-		# Stores failure messages taht can be retrieve 
+		# Stores failure messages that can be retrieved 
 		flash(error)
 
 	return render_template('auth/register.html')
+
+# Sets up login page
+@bp.route('/login', methods=('GET', 'POST'))
+def login():
+	if request.method == 'POST':
+		username = request.form['username']
+		password = request.form['password']
+		db = get_db()
+		error = None
+		user = db.execute(
+			'SELECT * FROM user WHERE username = ?', (username,)
+		).fetchone()
+
+		# Finding user errors
+		if user is None:
+			error = 'Incorrect username'
+		elif not check_password_hash(user['password'], password):
+			error = 'Incorrect password.'
+
+		# User input correct
+		if error is None:
+			# session is a dict that stores data across requests
+			session.clear()
+			# stores sucessful validation id in new session
+			# information stored in cookie sent to browser; available on subsequent requests
+			session['user_id'] = user['id']
+			return redirect(url_for('index'))
+
+		# Stores failure messages that can be retrieved
+		flash(error)
+
+	return render_template('auth/login.html')
