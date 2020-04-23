@@ -88,3 +88,9 @@ def load_logged_in_user():
 			'SELECT * FROM user WHERE id = ?', (user_id,)
 		).fetchone()
 	#end of method
+
+# Remove user id from session when user logs out
+@bp.route('/logout')
+def logout():
+	session.clear()
+	return redirect(url_for('index'))
