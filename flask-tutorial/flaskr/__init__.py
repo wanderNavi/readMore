@@ -33,4 +33,8 @@ def create_app(test_config=None):
 	def hello():
 		return 'Hello, World!'
 
+	# call db init function from db.py
+	from . import db
+	db.init_app(app)
+
 	return app
