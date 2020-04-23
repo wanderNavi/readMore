@@ -75,3 +75,16 @@ def login():
 		flash(error)
 
 	return render_template('auth/login.html')
+
+# Function running before view function, no matter what URL requested; checks if user logged in at beginning of each request and makes sure relevant information loaded in
+@bp.before_app_request
+def load_logged_in_user():
+	user_id = session.get('user_id')
+
+	if user_id is None:
+		g.user = None
+	else:
+		g.user = get_db().execute(
+			'SELECT * FROM user WHERE id = ?', (user_id,)
+		).fetchone()
+	#end of method
