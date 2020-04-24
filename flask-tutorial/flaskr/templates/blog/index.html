@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% bock header %}
+{% block header %}
 	<h1>{% block title %}Posts{% endblock %}</h1>
 	{% if g.user %}
 		<!-- adding a create link if logged in -->
